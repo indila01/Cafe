@@ -31,6 +31,21 @@ public static class DomainErrors
         public static Error InvalidFormat => Error.Validation("Email.InvalidFormat", "The email format is invalid.");
     }
 
+    public static class Cafe
+    {
+        public static Error NotFound => Error.Validation("Cafe.NotFound", "Cafe not found.");
+        public static Error FailedToUpdate => Error.Validation("Cafe.FailedToUpdate", "Failed to update the cafe.");
+        public static Error FailedToDelete => Error.Validation("Cafe.FailedToUpdate", "failed to delete the Cafe.");
+
+    }
+
+    public static class Employee
+    {
+        public static Error NotFound => Error.Validation("Employee.NotFound", "Employee not found.");
+        public static Error FailedToUpdate => Error.Validation("Employee.FailedToUpdate", "failed to update the Employee.");
+        public static Error FailedToDelete => Error.Validation("Employee.FailedToUpdate", "failed to delete the Employee.");
+
+    }
     /// <summary>
     /// Contains the PhoneNumber errors.
     /// </summary>
@@ -76,7 +91,7 @@ public static class DomainErrors
         /// gets invalid format error
         /// </summary>
         /// <returns>Error</returns>
-        public static Error InvalidValue => Error.Validation("Email.InvalidValue", "The Gender is invalid.");
+        public static Error InvalidValue => Error.Validation("Gender.InvalidValue", "The Gender is invalid.");
     }
 
     /// <summary>

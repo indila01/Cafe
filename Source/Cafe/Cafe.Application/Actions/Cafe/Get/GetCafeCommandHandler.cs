@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cafe.Application.Actions.Cafe.Get
 {
-    public class GetCafeCommandHandler(ICafeRepository cafeRepository) 
+    public class GetCafeCommandHandler(ICafeRepository cafeRepository)
         : IRequestHandler<GetCafeCommand, Result<List<CafeDto>>>
     {
         private ICafeRepository cafeRepository { get; set; } = cafeRepository;
@@ -20,7 +20,7 @@ namespace Cafe.Application.Actions.Cafe.Get
             var result = new List<CafeDto>();
             foreach (var cafe in query)
             {
-                var cafeDto = new CafeDto(cafe.Id, cafe.Location, cafe.Description, cafe.Location, Employees: cafe.Employees.Count);
+                var cafeDto = new CafeDto(cafe.Id, cafe.Name, cafe.Description, cafe.Location, Employees: cafe.Employees != null ? cafe.Employees?.Count : 0);
                 result.Add(cafeDto);
             }
             return Result.Success(result);

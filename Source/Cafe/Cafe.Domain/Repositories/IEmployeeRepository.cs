@@ -9,6 +9,11 @@ namespace Cafe.Domain.Repositories
 {
     public interface IEmployeeRepository
     {
+        Task<bool> CheckUniqueId(string uniqueId);
         Task<List<Employee>> GetEmployeebyCafeAsync(string cafe, CancellationToken cancellationToken = default);
+        Task<Employee> GetEmployeeByIdAsync(string id, CancellationToken cancellationToken);
+        void AddEmployee(Employee employee);
+        void DeleteEmployee(Employee employee);
+        void UpdateEmployee(Employee employee);
     }
 }
