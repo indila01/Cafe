@@ -11,7 +11,7 @@ export const Cafe = (location) => {
   const [cafes, setCafes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const { data, isPending, error } = useQuery({
+  const { data, isPending, error, refetch } = useQuery({
     queryKey: ['cafes'],
     queryFn: ()=>getCafes(location),
   });
@@ -44,7 +44,7 @@ export const Cafe = (location) => {
     { headerName: 'Delete', 
       cellRenderer:  (params) => (
         <Button danger
-           onClick={() => deleteCafe(params.data.id)}>
+        onClick={() => handleDelete(params.data.id)}>
            Delete
         </Button>
       ) },
@@ -58,6 +58,10 @@ export const Cafe = (location) => {
   //   urlParams.set('location', query);
   //   window.location.search = urlParams.toString();
   // };
+  const handleDelete = async (id) => {
+    await deleteCafe(id);
+    refetch();
+  };
 
   return (
     <div>

@@ -28,7 +28,7 @@ namespace Cafe.Api.Controllers
             var result = await mediator.Send(new GetEmployeeCommand(Cafe));
             if (result.IsSuccess)
             {
-                return result.Value.Any() ? Results.Ok(result.Value) : Results.NoContent();
+                return Results.Ok(result.Value);
             }
             return result.ToProblemDetails(appSettings.IncludeExceptionDetailsInResponse);
         }

@@ -26,8 +26,7 @@ namespace Cafe.Api.Controllers
             var result = await mediator.Send(new GetCafeCommand(location));
             if (result.IsSuccess)
             {
-
-                return result.Value.Any() ? Results.Ok(result.Value) : Results.NoContent();
+                return Results.Ok(result.Value);
             }
             return result.ToProblemDetails(appSettings.IncludeExceptionDetailsInResponse);
         }
@@ -45,7 +44,7 @@ namespace Cafe.Api.Controllers
                 : result.ToProblemDetails(appSettings.IncludeExceptionDetailsInResponse);
         }
         [HttpPut]
-        public async Task<IResult> UpdateCafe([FromQuery]Guid id, [FromBody] CafeRequest request)
+        public async Task<IResult> UpdateCafe([FromQuery] Guid id, [FromBody] CafeRequest request)
         {
             var result = await mediator.Send(new UpdateCafeCommand(
                 id,

@@ -23,7 +23,7 @@ export const createCafes = async (data) => {
 };
 
 export const updateCafe = async (id, data) => {
-    const response = await fetch(`http://localhost:5001/Cafes/${id}`, {
+    const response = await fetch(`http://localhost:5001/Cafes?id=${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

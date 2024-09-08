@@ -24,7 +24,7 @@ export const getEmployees = async ({cafe}) => {
 };
 
 export const updateEmployee = async (id, employee) => {
-    const response = await fetch(`http://localhost:5001/Employees/${id}`, {
+    const response = await fetch(`http://localhost:5001/Employees?id=${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export const updateEmployee = async (id, employee) => {
 };
 
 export const deleteEmployee = async (id) => {
-    const response = await fetch(`http://localhost:5001/Employees/${id}`, {
+    const response = await fetch(`http://localhost:5001/Employees?employeeId=${id}`, {
         method: 'DELETE'
     });
     if (!response.ok) throw new Error('Network response was not ok');

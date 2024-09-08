@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getEmployees } from '../Services/EmployeeService.js';
+import { deleteEmployee, getEmployees } from '../Services/EmployeeService.js';
 import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { Button } from "antd";
 
 
 export const Employee = (cafe) => {
     const [employees, setEmployees] = useState([]);
-    const { data, isPending, error } = useQuery({
+    const { data, isPending, error, refetch } = useQuery({
       queryKey: ['employees'],
       queryFn: ()=>getEmployees(cafe),
     });
@@ -28,6 +29,16 @@ export const Employee = (cafe) => {
       { headerName: 'Phone Number', field: 'phoneNumber' },
       { headerName: 'Cafe', field: 'cafe' },
       { headerName: 'Days Worked', field: 'daysWorked' },
+      { headerName: 'Delete', 
+        cellRenderer:  (params) => (
+          <Button danger
+             onClick={async () => {
+               await deleteEmployee(params.data.id);
+               refetch();
+             }}>
+             Delete
+          </Button>
+        ) },
     ];
   
     return (
