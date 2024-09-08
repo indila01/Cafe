@@ -21,11 +21,11 @@ namespace Cafe.Persistance
             var coffeeBean = Domain.Entities.Cafe.CreateCafe(
                 "Coffee Bean NEX",
                 "23 Serangoon Central, #02-K10 NEX, Singapore 556083",
-                "Marina Bay Sands");
+                "NEX");
             var starbucksReserve = Domain.Entities.Cafe.CreateCafe(
                 "Starbucks Reserve",
                 "2 Bayfront Avenue B2-56 The Shoppes at Marina Bay Sands, Singapore 018972",
-                "KINEX");
+                "Marina Bay Sands");
 
 
             var david = Employee.CreateEmployee(

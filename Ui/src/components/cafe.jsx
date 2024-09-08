@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Button, Input } from "antd";
+import { Button, Input, Modal } from "antd";
 import { Link } from '@tanstack/react-router';
 
 export const Cafe = (location) => {
@@ -29,6 +29,24 @@ export const Cafe = (location) => {
     cafe.location.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleDelete = async (id) => {
+    Modal.confirm({
+      title: 'Are you sure you want to delete this cafe?',
+      onOk: async () => {
+        await deleteCafe(id);
+        refetch();
+      },
+    });
+  };
+
+  const handleSearch = () => {
+    setSearchQuery(searchInput);
+  };
+
+  const handleAddCafe = async () => {
+    refetch();
+  };
+
   const columns = [
     { headerName: 'Name', field: 'name' },
     { headerName: 'Description', field: 'description' },
@@ -41,27 +59,16 @@ export const Cafe = (location) => {
         </Button>
       )
     },
-    { headerName: 'Delete', 
+    { headerName: 'Action', 
       cellRenderer:  (params) => (
+      <>
+        <Button style={{ marginRight: '8px' }}>Edit</Button>
         <Button danger
-        onClick={() => handleDelete(params.data.id)}>
-           Delete
+          onClick={() => handleDelete(params.data.id)}>
+            Delete
         </Button>
-      ) },
+      </>)} 
   ];
-
-  const handleSearch = () => {
-    setSearchQuery(searchInput);
-  };
-  // const handleSearch = (query) => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   urlParams.set('location', query);
-  //   window.location.search = urlParams.toString();
-  // };
-  const handleDelete = async (id) => {
-    await deleteCafe(id);
-    refetch();
-  };
 
   return (
     <div>
@@ -73,6 +80,7 @@ export const Cafe = (location) => {
           style={{ width: 200, marginRight: 10 }}
         />
         <Button onClick={handleSearch}>Search</Button>
+        <Button onClick={handleAddCafe} style={{ marginLeft: 'auto' }}>Add Cafe</Button>
       </div>
       <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
         <AgGridReact rowData={filteredCafes} columnDefs={columns} />
