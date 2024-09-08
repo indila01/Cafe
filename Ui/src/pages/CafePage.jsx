@@ -8,12 +8,12 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Cafe } from '../components/cafe.jsx';
 
 
-export const CafesPage = () => {
+export const CafesPage = (location) => {
     const queryClient = new QueryClient()
 
   return (
     <QueryClientProvider client={queryClient}>
-          <Cafe/>
+          <Cafe location={location}/>
     </QueryClientProvider>
 
   );

@@ -4,14 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { Link } from '@tanstack/react-router';
 
-export const Cafe = () => {
+export const Cafe = (location) => {
   const [cafes, setCafes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const { data, isPending, error } = useQuery({
     queryKey: ['cafes'],
-    queryFn: getCafes,
+    queryFn: ()=>getCafes(location),
   });
 
   useEffect(() => {
@@ -22,6 +24,10 @@ export const Cafe = () => {
 
   if (isPending) return <div>Loading...</div>;
   if (error) return <div>Error loading cafes</div>;
+
+  const filteredCafes = cafes.filter(cafe =>
+    cafe.location.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const columns = [
     { headerName: 'Name', field: 'name' },
@@ -44,10 +50,29 @@ export const Cafe = () => {
       ) },
   ];
 
+  const handleSearch = () => {
+    setSearchQuery(searchInput);
+  };
+  // const handleSearch = (query) => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   urlParams.set('location', query);
+  //   window.location.search = urlParams.toString();
+  // };
+
   return (
-    <div
-    className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
-      <AgGridReact rowData={cafes} columnDefs={columns} />
+    <div>
+      <div style={{ display: 'flex', marginBottom: 20 }}>
+        <Input 
+          placeholder="Search cafes" 
+          value={searchInput} 
+          onChange={(e) => setSearchInput(e.target.value)} 
+          style={{ width: 200, marginRight: 10 }}
+        />
+        <Button onClick={handleSearch}>Search</Button>
+      </div>
+      <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
+        <AgGridReact rowData={filteredCafes} columnDefs={columns} />
+      </div>
     </div>
   );
 };

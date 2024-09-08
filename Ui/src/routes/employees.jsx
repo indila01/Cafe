@@ -7,7 +7,7 @@ export const Route = createFileRoute('/employees')({
     component: () => {
         // const location = useLocation();
 
-     const queryParams = new URLSearchParams(location.search);
+    const queryParams = new URLSearchParams(location.search);
     const cafe = queryParams.get('cafe');
     return  <EmployeePage cafe={cafe} />}
   });
