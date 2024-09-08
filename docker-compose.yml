@@ -9,7 +9,7 @@ services:
       context: Ui
       dockerfile: ./Dockerfile
     environment:
-      NODE_ENV: production
+      NODE_ENV: Development
     ports:
       - 3000:3000
   db:
