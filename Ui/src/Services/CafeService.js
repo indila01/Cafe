@@ -1,7 +1,7 @@
 export const getCafes = async ({location}) => {
 //   const config = await loadConfig();
     let url ='http://localhost:5001/Cafes';
-    if (location.location !== null) {
+    if (location && location.location !== null) {
         url += `?location=${location.location}`;
     }
     const response = await fetch(url);

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Form, Input } from 'antd';
+import  { useState, useEffect } from 'react';
+import { Modal, Form, Input, Radio, Select } from 'antd';
 
-const CafeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValues }) => {
+const { Option } = Select;
+
+const EmployeeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValues, cafes }) => {
   const [form] = Form.useForm();
   const [isFormChanged, setIsFormChanged] = useState(false);
 
@@ -41,7 +43,7 @@ const CafeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValues })
 
   return (
     <Modal
-      title={isEditMode ? "Edit Cafe" : "Add Cafe"}
+      title={isEditMode ? "Edit Employee" : "Add Employee"}
       visible={isVisible}
       onCancel={handleCancel}
       onOk={() => {
@@ -74,25 +76,50 @@ const CafeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValues })
           <Input />
         </Form.Item>
         <Form.Item
-          name="description"
-          label="Description"
+          name="email"
+          label="Email"
           rules={[
-            { required: true, message: 'Please input the description!' },
-            { max: 256, message: 'Description must be at most 256 characters' }
+            { required: true, message: 'Please input the email!' },
+            { type: 'email', message: 'Please enter a valid email!' }
           ]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name="location"
-          label="Location"
-          rules={[{ required: true, message: 'Please input the location!' }]}
+          name="phoneNumber"
+          label="Phone Number"
+          rules={[
+            { required: true, message: 'Please input the phone number!' },
+            { pattern: /^[0-9]+$/, message: 'Phone number must be numeric!' }
+          ]}
         >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name="gender"
+          label="Gender"
+          rules={[{ required: true, message: 'Please select the gender!' }]}
+        >
+          <Radio.Group>
+            <Radio value="male">Male</Radio>
+            <Radio value="female">Female</Radio>
+            <Radio value="other">Other</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          name="cafe"
+          label="Assigned Cafe"
+          rules={[{ required: true, message: 'Please select the assigned cafe!' }]}
+        >
+          <Select placeholder="Select a cafe">
+            {cafes.map(cafe => (
+              <Option key={cafe.id} value={cafe.id}>{cafe.name}</Option>
+            ))}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-export default CafeModal;
+export default EmployeeModal;
