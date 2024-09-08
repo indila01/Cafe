@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { fetchCafes } from '../Services/CafeService.js';
+import { getCafes, deleteCafe } from '../Services/CafeService.js';
 import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { Button } from "antd";
+import { Link } from '@tanstack/react-router';
 
 export const Cafe = () => {
   const [cafes, setCafes] = useState([]);
   const { data, isPending, error } = useQuery({
     queryKey: ['cafes'],
-    queryFn: fetchCafes,
+    queryFn: getCafes,
   });
 
   useEffect(() => {
@@ -22,15 +24,24 @@ export const Cafe = () => {
   if (error) return <div>Error loading cafes</div>;
 
   const columns = [
-
-    //filter with location
-    //click on employees and show employees with cafe
-    //add new cafe button
     { headerName: 'Name', field: 'name' },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Location', field: 'location' },
-    { headerName: 'Employees',  },
-    { headerName: 'Edit/Delete' },
+    { 
+      headerName: 'Employees', 
+      cellRenderer:  (params) => (
+        <Button>
+          <Link to={`/employees?cafe=${params.data.name}`}>Employees</Link>
+        </Button>
+      )
+    },
+    { headerName: 'Delete', 
+      cellRenderer:  (params) => (
+        <Button danger
+           onClick={() => deleteCafe(params.data.id)}>
+           Delete
+        </Button>
+      ) },
   ];
 
   return (

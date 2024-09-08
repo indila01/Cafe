@@ -10,8 +10,11 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: Development
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - 3000:3000
+    depends_on: 
+      - api
   db:
     image: mysql
     restart: always
