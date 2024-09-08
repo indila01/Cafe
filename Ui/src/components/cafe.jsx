@@ -22,16 +22,20 @@ export const Cafe = () => {
   if (error) return <div>Error loading cafes</div>;
 
   const columns = [
+
+    //filter with location
+    //click on employees and show employees with cafe
+    //add new cafe button
     { headerName: 'Name', field: 'name' },
     { headerName: 'Description', field: 'description' },
     { headerName: 'Location', field: 'location' },
+    { headerName: 'Employees',  },
+    { headerName: 'Edit/Delete' },
   ];
 
   return (
     <div
-      className="ag-theme-alpine" // applying the Data Grid theme
-      style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-    >
+    className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
       <AgGridReact rowData={cafes} columnDefs={columns} />
     </div>
   );

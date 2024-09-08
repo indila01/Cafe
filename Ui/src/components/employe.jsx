@@ -23,16 +23,16 @@ export const Employee = () => {
     if (error) return <div>Error loading employees</div>;
   
     const columns = [
-      { headerName: 'Name', field: 'name' },
-      { headerName: 'Description', field: 'description' },
-      { headerName: 'Location', field: 'location' },
+      { headerName: 'Nameasd', field: 'name' },
+      { headerName: 'Email', field: 'email' },
+      { headerName: 'Phone Number', field: 'phoneNumber' },
+      { headerName: 'Cafe', field: 'cafe' },
+      { headerName: 'Days Worked', field: 'daysWorked' },
     ];
   
     return (
       <div
-        className="ag-theme-alpine" // applying the Data Grid theme
-        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-      >
+      className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
         <AgGridReact rowData={employees} columnDefs={columns} />
       </div>
     );

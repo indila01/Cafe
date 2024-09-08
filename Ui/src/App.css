@@ -44,3 +44,11 @@
 #root{
   width: 100%;
 }
+
+.hamburger-menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; 
+  padding: 15px;
+}
