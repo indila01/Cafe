@@ -45,10 +45,10 @@ namespace Cafe.Api.Controllers
                 : result.ToProblemDetails(appSettings.IncludeExceptionDetailsInResponse);
         }
         [HttpPut]
-        public async Task<IResult> UpdateCafe([FromBody] CafeRequestUpdate request)
+        public async Task<IResult> UpdateCafe([FromQuery]Guid id, [FromBody] CafeRequest request)
         {
             var result = await mediator.Send(new UpdateCafeCommand(
-                request.Id,
+                id,
                 request.Name,
                 request.Description,
                 request.Location));

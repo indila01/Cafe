@@ -34,7 +34,7 @@ namespace Cafe.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> CreateEmployee(EmployeeRequest request)
+        public async Task<IResult> CreateEmployee([FromBody] EmployeeRequest request)
         {
             var result = await mediator.Send(new CreateEmployeeCommand(
                  request.Name,
@@ -49,10 +49,10 @@ namespace Cafe.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IResult> UpdateEmployee(EmployeeRequestUpdate request)
+        public async Task<IResult> UpdateEmployee([FromQuery]string id, [FromBody]EmployeeRequest request)
         {
             var result = await mediator.Send(new UpdateEmployeeCommand(
-                request.Id,
+                id,
                 request.Name,
                 request.Gender,
                 request.Email,
