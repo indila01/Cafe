@@ -53,6 +53,7 @@ using (var scope = app.Services.CreateScope())
         .ServiceProvider
         .GetRequiredService<CafeDbContext>();
     dbContext.Database.Migrate();
+    dbContext.SeedData();
 }
 
 
