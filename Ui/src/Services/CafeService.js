@@ -10,7 +10,7 @@ export const getCafes = async ({location}) => {
     return response.json();
 };
 
-export const createCafes = async (data) => {
+export const createCafe = async (data) => {
     const response = await fetch('http://localhost:5001/Cafes', {
         method: 'POST',
         headers: {
@@ -22,8 +22,8 @@ export const createCafes = async (data) => {
     return response.json();
 };
 
-export const updateCafe = async (id, data) => {
-    const response = await fetch(`http://localhost:5001/Cafes?id=${id}`, {
+export const updateCafe = async (data) => {
+    const response = await fetch(`http://localhost:5001/Cafes?id=${data.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

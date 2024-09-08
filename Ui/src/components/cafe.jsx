@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
-import { getCafes, deleteCafe } from '../Services/CafeService.js';
+import { getCafes, deleteCafe, createCafe, updateCafe } from '../Services/CafeService.js';
 import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Button, Input, Modal } from "antd";
 import { Link } from '@tanstack/react-router';
+import CafeModal from './modals/cafeModal.jsx';
 
 export const Cafe = (location) => {
   const [cafes, setCafes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentCafe, setCurrentCafe] = useState(null);
   const { data, isPending, error, refetch } = useQuery({
     queryKey: ['cafes'],
     queryFn: ()=>getCafes(location),
@@ -43,7 +47,25 @@ export const Cafe = (location) => {
     setSearchQuery(searchInput);
   };
 
-  const handleAddCafe = async () => {
+  const handleAddCafe = () => {
+    setIsEditMode(false);
+    setCurrentCafe(null);
+    setIsModalVisible(true);
+  };
+
+  const handleEditCafe = (cafe) => {
+    setIsEditMode(true);
+    setCurrentCafe(cafe);
+    setIsModalVisible(true);
+  };
+
+  const handleFormSubmit = async (values) => {
+    if (isEditMode) {
+      await updateCafe({ ...currentCafe, ...values });
+    } else {
+      await createCafe(values);
+    }
+    setIsModalVisible(false);
     refetch();
   };
 
@@ -62,11 +84,8 @@ export const Cafe = (location) => {
     { headerName: 'Action', 
       cellRenderer:  (params) => (
       <>
-        <Button style={{ marginRight: '8px' }}>Edit</Button>
-        <Button danger
-          onClick={() => handleDelete(params.data.id)}>
-            Delete
-        </Button>
+        <Button style={{ marginRight: '8px' }} onClick={() => handleEditCafe(params.data)}>Edit</Button>
+        <Button danger onClick={() => handleDelete(params.data.id)}>Delete</Button>
       </>)} 
   ];
 
@@ -85,6 +104,13 @@ export const Cafe = (location) => {
       <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
         <AgGridReact rowData={filteredCafes} columnDefs={columns} />
       </div>
+      <CafeModal
+        isVisible={isModalVisible}
+        isEditMode={isEditMode}
+        onCancel={() => setIsModalVisible(false)}
+        onSubmit={handleFormSubmit}
+        initialValues={currentCafe}
+      />
     </div>
   );
 };
