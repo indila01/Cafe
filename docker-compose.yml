@@ -25,11 +25,12 @@ services:
       context: .
       dockerfile: Source/Cafe/Cafe.Api/Dockerfile
     environment:
-      aspnetcore_environment: Develpment
+      aspnetcore_environment: Development
       ConnectionString__dbContext: Server=db;Database=cafe;User=root;Password=Admin123$
       ASPNETCORE_URLS: "http://0.0.0.0:80"
     command: ["dotnet", "watch", "run", "--project", "Cafe.Api/Cafe.Api.csproj"]
     ports:
       - "0.0.0.0:5001:80"
+      - "0.0.0.0:5002:80"
     depends_on:
       - db
