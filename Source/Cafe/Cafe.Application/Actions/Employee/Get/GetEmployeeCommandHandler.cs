@@ -24,7 +24,8 @@ namespace Cafe.Application.Actions.Employee.Get
                      e.Email,
                      e.PhoneNumber,
                      DaysWorked: e.StartDate != null ? (int)(DateTime.Now - e.StartDate).Value.TotalDays : 0,
-                     e.Cafe?.Name ?? string.Empty))
+                     e.Cafe?.Name ?? string.Empty,
+                     e.CafeId))
                      .OrderByDescending(x => x.DaysWorked)
                      .ToList();
     

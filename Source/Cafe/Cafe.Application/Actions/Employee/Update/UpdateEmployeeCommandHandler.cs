@@ -21,7 +21,7 @@ namespace Cafe.Application.Actions.Employee.Update
         {
             var email = Email.Create(request.email);
             var gender = Gender.Create(request.gender);
-            var phoneNumber = PhoneNumber.Create(request.phoneNumber);
+            var phoneNumber = PhoneNumber.Create(request.phoneNumber.ToString());
 
             var firstFailureOrSuccess = Result.FirstFailureOrSuccess(email, gender, phoneNumber);
             if (firstFailureOrSuccess.IsFailure)
@@ -56,7 +56,8 @@ namespace Cafe.Application.Actions.Employee.Update
                 employee.Email, 
                 employee.PhoneNumber, 
                 DaysWorked: employee.StartDate != null ? (int)(DateTime.Now - employee.StartDate).Value.TotalDays : 0,
-                cafe.Name));
+                cafe.Name,
+                cafe.Id));
         }
     }
 }

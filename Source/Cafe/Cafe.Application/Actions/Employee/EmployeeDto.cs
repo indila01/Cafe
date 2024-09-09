@@ -12,5 +12,6 @@ namespace Cafe.Application.Actions.Employee
         string Email,
         long PhoneNumber,
         int DaysWorked,
-        string? Cafe);
+        string? Cafe,
+        Guid? CafeId);
 }

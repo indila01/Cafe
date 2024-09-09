@@ -25,7 +25,7 @@ namespace Cafe.Application.Actions.Employee.Create
         {
             var email = Email.Create(request.email);
             var gender = Gender.Create(request.gender);
-            var phoneNumber = PhoneNumber.Create(request.phoneNumber);
+            var phoneNumber = PhoneNumber.Create(request.phoneNumber.ToString());
 
             var firstFailureOrSuccess = Result.FirstFailureOrSuccess(email, gender, phoneNumber);
             if (firstFailureOrSuccess.IsFailure)

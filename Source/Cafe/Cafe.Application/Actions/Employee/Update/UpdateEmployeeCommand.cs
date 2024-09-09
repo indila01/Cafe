@@ -9,7 +9,7 @@ namespace Cafe.Application.Actions.Employee.Update
         string name,
         string gender,
         string email,
-        string phoneNumber,
-        Guid cafeId
+        long phoneNumber,
+        Guid? cafeId
         ) : IRequest<Result<EmployeeDto>>;
 }
