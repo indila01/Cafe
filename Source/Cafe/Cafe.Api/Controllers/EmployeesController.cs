@@ -1,7 +1,5 @@
 ﻿using Cafe.Api.Requests;
 using Cafe.API.Extensions;
-using Cafe.Application.Actions.Cafe.Create;
-using Cafe.Application.Actions.Cafe.Get;
 using Cafe.Application.Actions.Employee.Create;
 using Cafe.Application.Actions.Employee.Get;
 using Cafe.Application.Actions.Employee.Remove;
@@ -10,7 +8,6 @@ using Cafe.SharedKernel;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace Cafe.Api.Controllers
 {

@@ -8,7 +8,6 @@ using Cafe.SharedKernel;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace Cafe.Api.Controllers
 {
