@@ -19,7 +19,7 @@ namespace Cafe.Persistance.EFCustomizations
         }
 
         public async Task<Domain.Entities.Cafe?> GetCafeByIdAsync(
-            Guid cafeId,
+            Guid? cafeId,
             CancellationToken cancellationToken = default)
             => await dbContext.Cafes
                 .Include(x => x.Employees)

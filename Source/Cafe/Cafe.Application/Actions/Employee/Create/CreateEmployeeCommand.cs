@@ -13,6 +13,6 @@ namespace Cafe.Application.Actions.Employee.Create
         string gender, 
         string email, 
         long phoneNumber, 
-        Guid cafeId ) 
+        Guid? cafeId ) 
         : IRequest<Result<string>>;
 }

@@ -17,19 +17,42 @@ export const getEmployees = async ({cafe}) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(employee)
+        body: JSON.stringify({
+            "id": employee.id,
+            "name": employee.name,
+            "email": employee.email,
+            "phoneNumber": employee.phoneNumber,
+            "cafeId": employee.cafeId,
+            "gender": employee.gender
+        })
     });
     if (!response.ok) throw new Error('Network response was not ok');
     return response.json();
 };
 
-export const updateEmployee = async (id, employee) => {
-    const response = await fetch(`http://localhost:5001/Employees?id=${id}`, {
+export const updateEmployee = async (employee) => {
+    var body = null
+    if(employee.cafeId !== null && employee.cafeId !== ''){
+        body = {  "id": employee.id,
+            "name": employee.name,
+            "email": employee.email,
+            "phoneNumber": employee.phoneNumber,
+            "cafeId": employee.cafeId,
+            "gender": employee.gender}
+    }
+    else{
+      body = {  "id": employee.id,
+            "name": employee.name,
+            "email": employee.email,
+            "phoneNumber": employee.phoneNumber,
+            "gender": employee.gender}
+    }
+    const response = await fetch(`http://localhost:5001/Employees?id=${employee.id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(employee)
+        body: JSON.stringify(body)
     });
     if (!response.ok) throw new Error('Network response was not ok');
     return response.json();

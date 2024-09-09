@@ -1,5 +1,5 @@
-import  { useState, useEffect } from 'react';
-import { Modal, Form, Input, Radio, Select } from 'antd';
+import { useState, useEffect } from 'react';
+import { Modal, Form, Input, Radio, Select, Button } from 'antd';
 
 const { Option } = Select;
 
@@ -41,6 +41,7 @@ const EmployeeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValue
     }
   };
 
+
   return (
     <Modal
       title={isEditMode ? "Edit Employee" : "Add Employee"}
@@ -51,7 +52,7 @@ const EmployeeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValue
           .validateFields()
           .then(values => {
             form.resetFields();
-            onSubmit(values);
+            onSubmit({ ...values, cafeId: values.cafe });
             setIsFormChanged(false);
           })
           .catch(info => {
@@ -101,21 +102,21 @@ const EmployeeModal = ({ isVisible, isEditMode, onCancel, onSubmit, initialValue
           rules={[{ required: true, message: 'Please select the gender!' }]}
         >
           <Radio.Group>
-            <Radio value="male">Male</Radio>
-            <Radio value="female">Female</Radio>
-            <Radio value="other">Other</Radio>
+            <Radio value="Male">Male</Radio>
+            <Radio value="Female">Female</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item
           name="cafe"
           label="Assigned Cafe"
-          rules={[{ required: true, message: 'Please select the assigned cafe!' }]}
+          rules={[{ required: false, message: 'Please select the assigned cafe!' }]}
         >
           <Select placeholder="Select a cafe">
             {cafes.map(cafe => (
               <Option key={cafe.id} value={cafe.id}>{cafe.name}</Option>
             ))}
           </Select>
+         
         </Form.Item>
       </Form>
     </Modal>

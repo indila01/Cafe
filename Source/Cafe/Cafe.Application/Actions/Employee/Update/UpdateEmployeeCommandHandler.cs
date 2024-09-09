@@ -34,14 +34,16 @@ namespace Cafe.Application.Actions.Employee.Update
             {
                 return Result.Failure<EmployeeDto>(DomainErrors.Employee.NotFound);
             }
-            
-            var cafe = await cafeRepository.GetCafeByIdAsync(request.cafeId, cancellationToken);
-            if (cafe == null)
+
+            var cafe = !request.cafeId.Equals(Guid.Empty) ?
+                await cafeRepository.GetCafeByIdAsync(request.cafeId) : null;
+
+            if (cafe == null && !request.cafeId.Equals(Guid.Empty))
             {
                 return Result.Failure<EmployeeDto>(DomainErrors.Cafe.NotFound);
             }
 
-            employee.UpdateEmployee(request.name, email.Value, phoneNumber.Value,gender.Value, cafe.Id);
+            employee.UpdateEmployee(request.name, email.Value, phoneNumber.Value,gender.Value, cafe);
 
             employeeRepository.UpdateEmployee(employee);
             var result = await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -56,8 +58,8 @@ namespace Cafe.Application.Actions.Employee.Update
                 employee.Email, 
                 employee.PhoneNumber, 
                 DaysWorked: employee.StartDate != null ? (int)(DateTime.Now - employee.StartDate).Value.TotalDays : 0,
-                cafe.Name,
-                cafe.Id));
+                cafe?.Name,
+                cafe?.Id));
         }
     }
 }

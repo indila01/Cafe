@@ -47,22 +47,22 @@ namespace Cafe.Domain.Entities
             Email email,
             PhoneNumber phoneNumber,
             Gender gender,
-            Guid cafeId)
+            Cafe cafe)
         {
             Ensure.NotEmpty(name, "The name is required.", nameof(name));
             Ensure.NotEmpty(email, "The email is required.", nameof(email));
             Ensure.NotNull(phoneNumber, "The phone number is required.", nameof(phoneNumber));
             Ensure.NotNull(Gender, "The phone number is required.", nameof(phoneNumber));
-            Ensure.NotEmpty(cafeId, "The cafe identifier is required.", nameof(cafeId));
+            //Ensure.NotEmpty(cafeId, "The cafe identifier is required.", nameof(cafeId));
 
             this.Name = name;
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.Gender = gender;
-            if (cafeId != Guid.Empty || !cafeId.Equals(CafeId))
+            if (cafe != null)
             {
-                this.CafeId = cafeId;
                 this.StartDate = DateTime.Now;
+                this.CafeId = cafe.Id;
             }
         }
     }

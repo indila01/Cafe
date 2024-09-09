@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { deleteEmployee, getEmployees } from '../Services/EmployeeService.js';
+import { createEmployee, deleteEmployee, getEmployees, updateEmployee } from '../Services/EmployeeService.js';
 import { getCafes } from '../Services/CafeService.js';
 import { useQuery } from '@tanstack/react-query';
 import { AgGridReact } from 'ag-grid-react';
@@ -43,8 +43,8 @@ export const Employee = (cafe) => {
     { headerName: 'Name', field: 'name' },
     { headerName: 'Email', field: 'email' },
     { headerName: 'Phone Number', field: 'phoneNumber' },
-    { headerName: 'Gender', field: 'gender' },
     { headerName: 'Cafe', field: 'cafe' },
+    { headerName: 'Cafeid', field: 'cafeId', hide: true },
     {
       headerName: 'Action',
       cellRenderer: (params) => (
@@ -93,8 +93,11 @@ export const Employee = (cafe) => {
   };
 
   const handleModalSubmit = async (employee) => {
-    // Add or update employee logic here
-    // Example: await addOrUpdateEmployee(employee);
+    if (isEditMode) {
+      await updateEmployee({ ...currentEmployee, ...employee });
+    } else {
+      await createEmployee(employee);
+    }
     refetchEmployees();
     setIsModalVisible(false);
   };
