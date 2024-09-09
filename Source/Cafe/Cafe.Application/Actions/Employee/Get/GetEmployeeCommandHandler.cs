@@ -9,13 +9,28 @@ using System.Threading.Tasks;
 
 namespace Cafe.Application.Actions.Employee.Get
 {
-    public class GetEmployeeCommandHandler(IEmployeeRepository employeeRepository) 
-        : IRequestHandler<EmployeeCommand, Result<List<EmployeeDto>>>
+    public class GetEmployeeCommandHandler(IEmployeeRepository employeeRepository)
+        : IRequestHandler<GetEmployeeCommand, Result<List<EmployeeDto>>>
     {
         public IEmployeeRepository employeeRepository { get; set; } = employeeRepository;
-        public async Task<Result<List<EmployeeDto>>> Handle(EmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<List<EmployeeDto>>> Handle(GetEmployeeCommand request, CancellationToken cancellationToken)
         {
             var result = await employeeRepository.GetEmployeebyCafeAsync(request.Cafe, cancellationToken);
+            if (result != null)
+            {
+                var empList = result.Select(e => new EmployeeDto(
+                     e.Id,
+                     e.Name,
+                     e.Email,
+                     e.PhoneNumber,
+                     DaysWorked: e.StartDate != null ? (int)(DateTime.Now - e.StartDate).Value.TotalDays : 0,
+                     e.Cafe?.Name ?? string.Empty,
+                     e.CafeId))
+                     .OrderByDescending(x => x.DaysWorked)
+                     .ToList();
+    
+                return Result.Success(empList);
+            }
             return Result.Success(new List<EmployeeDto>());
         }
     }

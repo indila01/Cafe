@@ -13,9 +13,9 @@ public sealed class PhoneNumber : ValueObject
     /// <summary>
     /// The phone number maximum length.
     /// </summary>
-    public const int MaxLength = 9;
+    public const int MaxLength = 8;
 
-    private const string PhoneNumberRegexPattern = @"^9\d{8}$";
+    private const string PhoneNumberRegexPattern = @"^[89]\d{7}$";
 
     private static readonly Lazy<Regex> PhoneNumberFormatRegex =
         new Lazy<Regex>(() => new Regex(PhoneNumberRegexPattern, RegexOptions.Compiled));
@@ -48,7 +48,7 @@ public sealed class PhoneNumber : ValueObject
         return Result.Create(phoneNumber, DomainErrors.PhoneNumber.NullOrEmpty)
             .Ensure(p => !string.IsNullOrWhiteSpace(p), DomainErrors.PhoneNumber.NullOrEmpty)
             .Ensure(p => p.Length == MaxLength, DomainErrors.PhoneNumber.InvalidLength)
-            .Ensure(p => PhoneNumberFormatRegex.Value.IsMatch(p), DomainErrors.PhoneNumber.InvalidFormat)
+            .Ensure(p => PhoneNumberFormatRegex.Value.IsMatch(p.ToString()), DomainErrors.PhoneNumber.InvalidFormat)
             .Map(p => new PhoneNumber(parsedPhoneNumber));
     }
 

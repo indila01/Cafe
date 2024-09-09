@@ -14,7 +14,7 @@ public sealed class Gender : ValueObject
     /// </summary>
     public const int MaxLength = 50;
 
-    private static readonly List<string> ValidGenders = new List<string> { "Male", "Female" };
+    private static readonly List<string> ValidGenders = new List<string> { "Male", "Female", "male", "female" };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Gender"/> class.

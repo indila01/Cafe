@@ -72,7 +72,8 @@ namespace Cafe.Persistance.Migrations
                 {
                     b.HasOne("Cafe.Domain.Entities.Cafe", "Cafe")
                         .WithMany("Employees")
-                        .HasForeignKey("CafeId");
+                        .HasForeignKey("CafeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("Cafe.Domain.ValueObjects.Email", "Email", b1 =>
                         {
@@ -118,7 +119,7 @@ namespace Cafe.Persistance.Migrations
                                 .HasColumnType("varchar(255)");
 
                             b1.Property<long>("Value")
-                                .HasMaxLength(9)
+                                .HasMaxLength(8)
                                 .HasColumnType("bigint")
                                 .HasColumnName("PhoneNumber");
 

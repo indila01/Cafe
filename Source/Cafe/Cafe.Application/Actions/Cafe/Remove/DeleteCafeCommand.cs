@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cafe.Application.Actions.Employee.Get
+namespace Cafe.Application.Actions.Cafe.Remove
 {
-    public record EmployeeCommand(string? Cafe) : IRequest<Result<List<EmployeeDto>>>;
+    public record DeleteCafeCommand(Guid id) : IRequest<Result<Guid>>;
 }

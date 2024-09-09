@@ -49,6 +49,11 @@ namespace Cafe.Persistance.EFConfigurations
                     .HasMaxLength(Gender.MaxLength)
                     .IsRequired();
             });
+
+            builder.HasOne(e => e.Cafe)
+                .WithMany(c => c.Employees)
+                .HasForeignKey(e => e.CafeId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

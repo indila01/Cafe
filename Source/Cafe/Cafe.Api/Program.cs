@@ -1,6 +1,9 @@
+using Cafe.API.Middleware;
 using Cafe.Persistance;
 using Cafe.Persistance.EFCustomizations;
+using Cafe.SharedKernel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,22 @@ var config = builder.Configuration
 builder.Services.RegisterPersistenceServices(config);
 builder.Services.RegisterApplicationServices();
 
+builder.Services.Configure<ApplicationConfig>(
+    builder.Configuration.GetSection(nameof(ApplicationConfig)));
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 // Add services to the container.
 
@@ -22,6 +41,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Add(ServiceDescriptor.Singleton(typeof(IOptionsSnapshot<>), typeof(OptionsManager<>)));
+
 
 var app = builder.Build();
 
@@ -31,6 +53,7 @@ using (var scope = app.Services.CreateScope())
         .ServiceProvider
         .GetRequiredService<CafeDbContext>();
     dbContext.Database.Migrate();
+    dbContext.SeedData();
 }
 
 
@@ -41,7 +64,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

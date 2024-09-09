@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cafe.Application.Actions.Employee.Get
+namespace Cafe.Application.Actions.Employee
 {
     public record EmployeeDto(
         string Id, 
         string Name,
         string Email,
-        string PhoneNumber,
+        long PhoneNumber,
         int DaysWorked,
-        string? Cafe);
+        string? Cafe,
+        Guid? CafeId);
 }

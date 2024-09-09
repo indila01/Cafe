@@ -20,6 +20,7 @@ namespace Cafe.Persistance
             services.AddDbContext<CafeDbContext>(o => o.UseMySQL(connectionString));
 
             // Registering the Repositories
+            services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<CafeDbContext>());
             services.AddScoped<ICafeRepository, CafeRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             return services;
